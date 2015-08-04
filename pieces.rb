@@ -26,6 +26,10 @@ class Piece
     @pos, @board, @color = pos, board, color
   end
 
+  def empty_or_enemy?(next_pos)
+    board[next_pos].nil? || board[next_pos].color != self.color
+  end
+
 end
 
 class SlidingPiece < Piece
@@ -44,18 +48,13 @@ class SlidingPiece < Piece
       end
       moves
   end
-
-  def empty_or_enemy?(next_pos)
-    board[next_pos].nil? || board[next_pos].color != self.color
-  end
-
 end
 
 class SteppingPiece < Piece
   def step(pos, direction)
     moves = []
     next_pos = [pos[0] + direction[0], pos[1] + direction[1]]
-    if (next_pos.all? &BOUND_PROC) &&
+    if (next_pos.all? &BOUND_PROC) && empty_or_enemy?(next_pos)
           (board[next_pos].nil?)
         moves << next_pos
     end
@@ -141,25 +140,25 @@ if __FILE__ == $PROGRAM_NAME
   queen = Queen.new([5,5], b, "black")
   b[[5,5]] = queen
 
-  king = King.new([3,6], b, "white")
-  b[[3,6]] = king
+  king = King.new([3,3], b, "white")
+  b[[3,3]] = king
 
-  knight = Knight.new([0,6], b, "white")
-  b[[0,6]] = knight
+  knight = Knight.new([1,2], b, "white")
+  b[[1,2]] = knight
 
-  puts "Knight at [0,6]"
-   knight.moves
+  puts "Knight at [1,2]"
+  p knight.moves
 
-  puts "King at [3,6]"
-   king.moves
+  puts "King at [3,3]"
+  p king.moves
 
   puts "Bishop at [4,4]"
-  p bis.moves
+  bis.moves
 
   puts "Rook at [0,4]"
   rook.moves
 
   puts "Queen at [5,5]"
-  p queen.moves
+  queen.moves
 
 end

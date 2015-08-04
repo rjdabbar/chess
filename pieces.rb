@@ -3,8 +3,7 @@ require_relative 'board.rb'
 module Slidable
   def slide(pos, direction)
     moves = []
-    check_pos = pos
-    next_pos = [check_pos[0] + direction[0], check_pos[1] + direction[1]]
+    next_pos = [pos[0] + direction[0], pos[1] + direction[1]]
     while (next_pos.all? { |coordinate| coordinate.between?(0,7) }) &&
           (board[next_pos].nil?)
         moves << next_pos
@@ -14,29 +13,10 @@ module Slidable
   end
 end
 
-module Diagonable
-  DIAGONAL_DELTAS = [
-    [-1, -1], [-1, 1], [1, 1], [1, -1]
-  ]
-  def moves
-    origin = pos
-    p origin
-    valid_moves = []
-    DIAGONAL_DELTAS.each do |delta|
-         valid_moves += slide(origin, delta)
-         p valid_moves
-      #  if checkpos is both NIL and withing bounds we add to array
-      # iterate through delta, for each one checks the cordinate from the
-      # current positon in the delta direciton if its avalid move. if it is valid,
-      # add that to an array and then check the next one in the delta direction
-    end
-    valid_moves
-  end
+module Straightable
 end
 
 class Piece
-  include Slidable
-  include Diagonable
   attr_reader :board
   attr_accessor :pos
 
@@ -47,7 +27,7 @@ class Piece
 end
 
 class SlidingPiece < Piece
-
+  include Slidable
 end
 
 class SteppingPiece < Piece
@@ -61,12 +41,47 @@ class King < SteppingPiece
 end
 
 class Queen < SlidingPiece
+  ALL_DELTAS = [
+    [ 0, -1], [ 0, 1], [1, 0], [-1,  0],
+    [-1, -1], [-1, 1], [1, 1], [ 1, -1]
+  ]
+  def moves
+    origin = pos
+    valid_moves = []
+    ALL_DELTAS.each do |delta|
+      valid_moves += slide(origin, delta)
+    end
+    valid_moves
+  end
 end
 
 class Rook < SlidingPiece
+  STRAIGHT_DELTAS = [
+    [0, -1], [0, 1], [1, 0], [-1, 0]
+  ]
+  def moves
+    origin = pos
+    valid_moves = []
+    STRAIGHT_DELTAS.each do |delta|
+      valid_moves += slide(origin, delta)
+    end
+    valid_moves
+  end
 end
 
 class Bishop < SlidingPiece
+  DIAGONAL_DELTAS = [
+    [-1, -1], [-1, 1], [1, 1], [1, -1]
+  ]
+  def moves
+    origin = pos
+    valid_moves = []
+    DIAGONAL_DELTAS.each do |delta|
+      valid_moves += slide(origin, delta)
+    end
+    valid_moves
+  end
+
 end
 
 class Knight < SteppingPiece
@@ -74,7 +89,26 @@ end
 
 if __FILE__ == $PROGRAM_NAME
   b = Board.new
-  bis = Piece.new([4,4], b)
+
+  bis = Bishop.new([4,4], b)
   b[[4,4]] = bis
+
+
+
+  rook = Rook.new([0,4], b)
+  b[[0,4]] = rook
+
+
+  queen = Queen.new([5,5], b)
+  b[[5,5]] = queen
+
+  puts "Bishop at [4,4]"
   bis.moves
+
+  puts "Rook at [0,4]"
+  rook.moves
+
+  puts "Queen at [5,5]"
+  queen.moves
+
 end

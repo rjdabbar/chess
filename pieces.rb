@@ -39,8 +39,17 @@ end
 class Knight < SteppingPiece
 end
 
-# module Slidable
-# end
+module Slidable
+  def slide(pos, direction)
+    moves = []
+    check_pos = pos
+    until check_pos.any? { |coordinate| !coordinate.between?(0,7) } ||
+          !board[check_pos].nil?
+        check_pos = [check_pos[0] + delta[0], check_pos[1] + delta[1]
+        moves << check_pos
+      end
+  end
+end
 
 module Diagonable
   DIAGONAL_DELTAS = [
@@ -50,11 +59,7 @@ module Diagonable
     origin = pos
     valid_moves = []
     DIAGONAL_DELTAS.each do |delta|
-      check_pos = [origin[0] + delta[0], origin[1] + delta[1]
-      if check_pos.all? { |coordinate| coordinate.between?(0,7) } &&
-            board[check_pos].nil?
-         valid_moves << check_pos
-      end
+         valid_moves += slide(check_pos, delta)
       #  if checkpos is both NIL and withing bounds we add to array
       # iterate through delta, for each one checks the cordinate from the
       # current positon in the delta direciton if its avalid move. if it is valid,

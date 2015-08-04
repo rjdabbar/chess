@@ -16,8 +16,10 @@ class Piece
     [-2, -1], [-2,  1], [-1, -2], [-1,  2],
     [ 1, -2], [ 1,  2], [ 2, -1], [ 2,  1]
   ]
-  WHITE_PAWN_DELTA = [0, 1]
-  BLACK_PAWN_DELTA = [0,-1]
+  PAWN_DELTA = [1, 0]
+
+  WHITE_PAWN_ATTACK_DELTA = [[-1,  1], [1,  1]]
+  BLACK_PAWN_ATTACK_DELTA = [[-1, -1], [1, -1]]
 
   BOUND_PROC = Proc.new { |coordinate| coordinate.between?(0,7) }
   PAWN_START_PROC = Proc.new { |coord| coord * 2 }
@@ -41,8 +43,8 @@ class Piece
     board[next_pos].color != self.color
   end
 
-  def new_pos(start_pos, end_pos)
-    [(start_pos[0] + end_pos[0]), (start_pos[1] + end_pos[1])]
+  def new_pos(start_pos, dir)
+    [(start_pos[0] + dir[0]), (start_pos[1] + dir[1])]
   end
 
 end
@@ -84,28 +86,34 @@ class Pawn < Piece
   end
 
   def first_move
+    one_move = new_pos(pos, PAWN_DELTA)
+    two_move = new_pos(pos, (PAWN_DELTA.map &PAWN_START_PROC))
     moves = []
-    if self.color == "white"
-      moves << new_pos(pos, WHITE_PAWN_DELTA)
-      moves << new_pos(pos, (WHITE_PAWN_DELTA.map &PAWN_START_PROC))
-    else
-      moves << new_pos(pos, BLACK_PAWN_DELTA )
-      moves << new_pos(pos, (BLACK_PAWN_DELTA.map &PAWN_START_PROC))
-    end
+    moves << one_move if empty?(one_move)
+    moves << two_move if empty?(one_move) && empty?(two_move)
     moves
   end
 
   def move
-    white_move = new_pos(pos, WHITE_PAWN_DELTA)
-    black_move = new_pos(pos, BLACK_PAWN_DELTA )
+    one_move = new_pos(pos, PAWN_DELTA)
     moves = []
-      if self.color == "white"
-        moves << white_move if empty?(white_move)
-      else
-        moves << black_move if empty?(black_move)
-      end
+    moves << one_move if empty?(one_move)
     moves
   end
+
+  def capture_move
+    # attack_delta.each do |delta|
+      # enemy?(new_pos(pos, delta))
+  end
+
+  def new_pos(start_pos, dir)
+    if self.color == "white"
+        [(start_pos[0] + dir[0]), (start_pos[1] + dir[1])]
+    else
+        [(start_pos[0] - dir[0]), (start_pos[1] + dir[1])]
+    end
+  end
+
   ## if pawn pos[0] is == 1 (for white) or 6 (for black) pawn may move up to two spaces
   ## otherwise, pawn may move only one space forward (direction determined by color)
   ## if an 'attack point' is occupied, pawn may move to it
@@ -212,14 +220,14 @@ if __FILE__ == $PROGRAM_NAME
   # queen.moves
 
   p1 = Pawn.new([1,4], b, "white")
-  p2 = Pawn.new([5,4], b, "white")
-  p3 = Pawn.new([6,4], b, "black")
-  p4 = Pawn.new([3,4], b, "black")
+  p2 = Pawn.new([2,4], b, "white")
+  p3 = Pawn.new([5,4], b, "black")
+  p4 = Pawn.new([6,4], b, "black")
 
   b[[1,4]] = p1
-  b[[5,4]] = p2
-  b[[6,4]] = p3
-  b[[3,4]] = p4
+  b[[2,4]] = p2
+  b[[5,4]] = p3
+  b[[6,4]] = p4
 
   p p1.moves
   p p2.moves

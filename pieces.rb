@@ -2,20 +2,7 @@
 require_relative 'board.rb'
 
 class Piece
-  ALL_DELTAS = [
-    [ 0, -1], [ 0, 1], [1, 0], [-1,  0],
-    [-1, -1], [-1, 1], [1, 1], [ 1, -1]
-  ]
-  ORTHOGANAL_DELTAS = [
-    [0, -1], [0, 1], [1, 0], [-1, 0]
-  ]
-  DIAGONAL_DELTAS = [
-    [-1, -1], [-1, 1], [1, 1], [1, -1]
-  ]
-  KNIGHT_DELTAS = [
-    [-2, -1], [-2,  1], [-1, -2], [-1,  2],
-    [ 1, -2], [ 1,  2], [ 2, -1], [ 2,  1]
-  ]
+
   PAWN_DELTA = [1, 0]
 
   PAWN_ATTACK_DELTA = [[1,  -1], [1,  1]]
@@ -75,6 +62,12 @@ class SlidingPiece < Piece
 end
 
 class SteppingPiece < Piece
+  DIAGONAL_DELTAS = [
+    [-1, -1], [-1, 1], [1, 1], [1, -1]
+  ]
+  ORTHOGANAL_DELTAS = [
+    [0, -1], [0, 1], [1, 0], [-1, 0]
+  ]
   def step(pos, direction)
     moves = []
     next_pos = new_pos(pos, direction)
@@ -84,6 +77,14 @@ class SteppingPiece < Piece
     end
 
     moves
+  end
+
+  def moves
+    valid_moves = []
+    move_dirs.each do |delta|
+      valid_moves += step(pos, delta)
+    end
+    valid_moves
   end
 end
 
@@ -146,22 +147,22 @@ class Pawn < Piece
 end
 
 class King < SteppingPiece
-  def moves
-    valid_moves = []
-    ALL_DELTAS.each do |delta|
-      valid_moves += step(pos, delta)
-    end
-    valid_moves
+  attr_reader :move_dirs
+  def initialize(pos, board, color)
+    super(pos, board, color)
+    @move_dirs = DIAGONAL_DELTAS + ORTHOGANAL_DELTAS
   end
 end
 
 class Knight < SteppingPiece
-  def moves
-    valid_moves = []
-    KNIGHT_DELTAS.each do |delta|
-      valid_moves += step(pos, delta)
-    end
-    valid_moves
+  KNIGHT_DELTAS = [
+    [-2, -1], [-2,  1], [-1, -2], [-1,  2],
+    [ 1, -2], [ 1,  2], [ 2, -1], [ 2,  1]
+  ]
+  attr_reader :move_dirs
+  def initialize(pos, board, color)
+    super(pos, board, color)
+    @move_dirs = KNIGHT_DELTAS
   end
 end
 

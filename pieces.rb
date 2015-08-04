@@ -18,8 +18,7 @@ class Piece
   ]
   PAWN_DELTA = [1, 0]
 
-  WHITE_PAWN_ATTACK_DELTA = [[-1,  1], [1,  1]]
-  BLACK_PAWN_ATTACK_DELTA = [[-1, -1], [1, -1]]
+  PAWN_ATTACK_DELTA = [[-1,  1], [1,  1]]
 
   BOUND_PROC = Proc.new { |coordinate| coordinate.between?(0,7) }
   PAWN_START_PROC = Proc.new { |coord| coord * 2 }
@@ -95,10 +94,7 @@ class Pawn < Piece
   end
 
   def move
-    one_move = new_pos(pos, PAWN_DELTA)
-    moves = []
-    moves << one_move if empty?(one_move)
-    moves
+    new_pos(pos, PAWN_DELTA) if empty?(new_pos(pos, PAWN_DELTA))
   end
 
   def capture_move

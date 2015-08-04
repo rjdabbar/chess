@@ -2,6 +2,21 @@
 require_relative 'board.rb'
 
 class Piece
+  ALL_DELTAS = [
+    [ 0, -1], [ 0, 1], [1, 0], [-1,  0],
+    [-1, -1], [-1, 1], [1, 1], [ 1, -1]
+  ]
+  STRAIGHT_DELTAS = [
+    [0, -1], [0, 1], [1, 0], [-1, 0]
+  ]
+  DIAGONAL_DELTAS = [
+    [-1, -1], [-1, 1], [1, 1], [1, -1]
+  ]
+  KNIGHT_DELTAS = [
+    [-2, -1], [-2,  1], [-1, -2], [-1,  2],
+    [ 1, -2], [ 1,  2], [ 2, -1], [ 2,  1]
+  ]
+
   attr_reader :board
   attr_accessor :pos
 
@@ -25,23 +40,45 @@ class SlidingPiece < Piece
 end
 
 class SteppingPiece < Piece
-
+  def step(pos, direction)
+    moves = []
+    next_pos = [pos[0] + direction[0], pos[1] + direction[1]]
+    if (next_pos.all? { |coordinate| coordinate.between?(0,7) }) &&
+          (board[next_pos].nil?)
+        moves << next_pos
+    end
+    moves
+  end
 end
 
 class Pawn < Piece
 end
 
 class King < SteppingPiece
+  def moves
+    origin = pos
+    valid_moves = []
+
+    ALL_DELTAS.each do |delta|
+      valid_moves += step(origin, delta)
+    end
+    valid_moves
+  end
 end
 
 class Knight < SteppingPiece
+  def moves
+    origin = pos
+    valid_moves = []
+
+    KNIGHT_DELTAS.each do |delta|
+      valid_moves += step(origin, delta)
+    end
+    valid_moves
+  end
 end
 
 class Queen < SlidingPiece
-  ALL_DELTAS = [
-    [ 0, -1], [ 0, 1], [1, 0], [-1,  0],
-    [-1, -1], [-1, 1], [1, 1], [ 1, -1]
-  ]
   def moves
     origin = pos
     valid_moves = []
@@ -53,9 +90,6 @@ class Queen < SlidingPiece
 end
 
 class Rook < SlidingPiece
-  STRAIGHT_DELTAS = [
-    [0, -1], [0, 1], [1, 0], [-1, 0]
-  ]
   def moves
     origin = pos
     valid_moves = []
@@ -67,9 +101,6 @@ class Rook < SlidingPiece
 end
 
 class Bishop < SlidingPiece
-  DIAGONAL_DELTAS = [
-    [-1, -1], [-1, 1], [1, 1], [1, -1]
-  ]
   def moves
     origin = pos
     valid_moves = []
@@ -78,7 +109,6 @@ class Bishop < SlidingPiece
     end
     valid_moves
   end
-
 end
 
 
@@ -97,6 +127,18 @@ if __FILE__ == $PROGRAM_NAME
 
   queen = Queen.new([5,5], b)
   b[[5,5]] = queen
+
+  king = King.new([3,6], b)
+  b[[3,6]] = king
+
+  knight = Knight.new([0,6], b)
+  b[[0,6]] = knight
+
+  puts "Knight at [0,6]"
+  p knight.moves
+
+  puts "King at [3,6]"
+  p king.moves
 
   puts "Bishop at [4,4]"
   bis.moves

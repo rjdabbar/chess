@@ -1,4 +1,8 @@
-require_relative 'pieces.rb'
+require_relative 'piece.rb'
+require_relative 'stepping_piece.rb'
+require_relative 'sliding_piece.rb'
+require_relative 'pawn.rb'
+
 class Board
   BOARD_SIZE = 8
   attr_accessor :board

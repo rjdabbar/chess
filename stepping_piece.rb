@@ -1,3 +1,5 @@
+require_relative 'board.rb'
+require_relative 'piece.rb'
 
 class SteppingPiece < Piece
   DIAGONAL_DELTAS = [

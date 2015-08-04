@@ -1,3 +1,5 @@
+require_relative 'board.rb'
+require_relative 'piece.rb'
 
 class Pawn < Piece
   PAWN_DELTA = [1, 0]

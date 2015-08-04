@@ -1,7 +1,8 @@
+require_relative 'pieces.rb'
 class Board
   BOARD_SIZE = 8
   attr_accessor :board
-  
+
   def initialize
     @board = Array.new(BOARD_SIZE) { Array.new(BOARD_SIZE) }
   end

@@ -1,5 +1,10 @@
 class Piece
+  attr_reader :board
+  attr_accessor :pos
 
+  def initialize(pos, board)
+    @pos, @board = pos, board
+  end
 end
 
 class SlidingPiece < Piece

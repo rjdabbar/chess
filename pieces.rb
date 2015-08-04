@@ -1,20 +1,5 @@
 
 require_relative 'board.rb'
-module Slidable
-  def slide(pos, direction)
-    moves = []
-    next_pos = [pos[0] + direction[0], pos[1] + direction[1]]
-    while (next_pos.all? { |coordinate| coordinate.between?(0,7) }) &&
-          (board[next_pos].nil?)
-        moves << next_pos
-        next_pos = [next_pos[0] + direction[0], next_pos[1] + direction[1]]
-      end
-      moves
-  end
-end
-
-module Straightable
-end
 
 class Piece
   attr_reader :board
@@ -27,7 +12,16 @@ class Piece
 end
 
 class SlidingPiece < Piece
-  include Slidable
+  def slide(pos, direction)
+    moves = []
+    next_pos = [pos[0] + direction[0], pos[1] + direction[1]]
+    while (next_pos.all? { |coordinate| coordinate.between?(0,7) }) &&
+          (board[next_pos].nil?)
+        moves << next_pos
+        next_pos = [next_pos[0] + direction[0], next_pos[1] + direction[1]]
+      end
+      moves
+  end
 end
 
 class SteppingPiece < Piece
@@ -38,6 +32,9 @@ class Pawn < Piece
 end
 
 class King < SteppingPiece
+end
+
+class Knight < SteppingPiece
 end
 
 class Queen < SlidingPiece
@@ -84,8 +81,7 @@ class Bishop < SlidingPiece
 
 end
 
-class Knight < SteppingPiece
-end
+
 
 if __FILE__ == $PROGRAM_NAME
   b = Board.new

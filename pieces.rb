@@ -17,6 +17,7 @@ class Piece
     [ 1, -2], [ 1,  2], [ 2, -1], [ 2,  1]
   ]
   PAWN_DELTA = [[0,1]]
+  BOUND_PROC = Proc.new { |coordinate| coordinate.between?(0,7) }
 
   attr_reader :board, :color
   attr_accessor :pos
@@ -31,7 +32,7 @@ class SlidingPiece < Piece
   def slide(pos, direction)
     moves = []
     next_pos = [pos[0] + direction[0], pos[1] + direction[1]]
-    while (next_pos.all? { |coordinate| coordinate.between?(0,7) }) &&
+    while (next_pos.all? &BOUND_PROC) &&
           (board[next_pos].nil? || board[next_pos].color != self.color)
         moves << next_pos
         if board[next_pos].nil?
@@ -50,7 +51,7 @@ class SteppingPiece < Piece
   def step(pos, direction)
     moves = []
     next_pos = [pos[0] + direction[0], pos[1] + direction[1]]
-    if (next_pos.all? { |coordinate| coordinate.between?(0,7) }) &&
+    if (next_pos.all? &BOUND_PROC) &&
           (board[next_pos].nil?)
         moves << next_pos
     end

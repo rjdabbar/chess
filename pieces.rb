@@ -61,16 +61,20 @@ class SteppingPiece < Piece
 end
 
 class Pawn < Piece
+  def moves
 
+
+  end
+  ## if pawn pos[0] is == 1 (for white) or 6 (for black) pawn may move up to two spaces
+  ## otherwise, pawn may move only one space forward (direction determined by color)
+  ## if an 'attack point' is occupied, pawn may move to it
 end
 
 class King < SteppingPiece
   def moves
-    origin = pos
     valid_moves = []
-
     ALL_DELTAS.each do |delta|
-      valid_moves += step(origin, delta)
+      valid_moves += step(pos, delta)
     end
     valid_moves
   end
@@ -78,11 +82,9 @@ end
 
 class Knight < SteppingPiece
   def moves
-    origin = pos
     valid_moves = []
-
     KNIGHT_DELTAS.each do |delta|
-      valid_moves += step(origin, delta)
+      valid_moves += step(pos, delta)
     end
     valid_moves
   end
@@ -90,10 +92,9 @@ end
 
 class Queen < SlidingPiece
   def moves
-    origin = pos
     valid_moves = []
     ALL_DELTAS.each do |delta|
-      valid_moves += slide(origin, delta)
+      valid_moves += slide(pos, delta)
     end
     valid_moves
   end
@@ -101,10 +102,9 @@ end
 
 class Rook < SlidingPiece
   def moves
-    origin = pos
     valid_moves = []
     STRAIGHT_DELTAS.each do |delta|
-      valid_moves += slide(origin, delta)
+      valid_moves += slide(pos, delta)
     end
     valid_moves
   end
@@ -112,10 +112,9 @@ end
 
 class Bishop < SlidingPiece
   def moves
-    origin = pos
     valid_moves = []
     DIAGONAL_DELTAS.each do |delta|
-      valid_moves += slide(origin, delta)
+      valid_moves += slide(pos, delta)
     end
     valid_moves
   end

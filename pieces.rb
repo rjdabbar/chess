@@ -32,8 +32,7 @@ class SlidingPiece < Piece
   def slide(pos, direction)
     moves = []
     next_pos = [pos[0] + direction[0], pos[1] + direction[1]]
-    while (next_pos.all? &BOUND_PROC) &&
-          (board[next_pos].nil? || board[next_pos].color != self.color)
+    while (next_pos.all? &BOUND_PROC) && empty_or_enemy?(next_pos)
         moves << next_pos
         if board[next_pos].nil?
           next_pos = [next_pos[0] + direction[0], next_pos[1] + direction[1]]
@@ -45,6 +44,11 @@ class SlidingPiece < Piece
       end
       moves
   end
+
+  def empty_or_enemy?(next_pos)
+    board[next_pos].nil? || board[next_pos].color != self.color
+  end
+
 end
 
 class SteppingPiece < Piece

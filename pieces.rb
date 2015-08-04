@@ -16,12 +16,13 @@ class Piece
     [-2, -1], [-2,  1], [-1, -2], [-1,  2],
     [ 1, -2], [ 1,  2], [ 2, -1], [ 2,  1]
   ]
+  PAWN_DELTA = [[0,1]]
 
-  attr_reader :board
+  attr_reader :board, :color
   attr_accessor :pos
 
-  def initialize(pos, board)
-    @pos, @board = pos, board
+  def initialize(pos, board, color)
+    @pos, @board, @color = pos, board, color
   end
 
 end
@@ -52,6 +53,7 @@ class SteppingPiece < Piece
 end
 
 class Pawn < Piece
+
 end
 
 class King < SteppingPiece
@@ -116,22 +118,22 @@ end
 if __FILE__ == $PROGRAM_NAME
   b = Board.new
 
-  bis = Bishop.new([4,4], b)
+  bis = Bishop.new([4,4], b, "white")
   b[[4,4]] = bis
 
 
 
-  rook = Rook.new([0,4], b)
+  rook = Rook.new([0,4], b, "white")
   b[[0,4]] = rook
 
 
-  queen = Queen.new([5,5], b)
+  queen = Queen.new([5,5], b, "white")
   b[[5,5]] = queen
 
-  king = King.new([3,6], b)
+  king = King.new([3,6], b, "white")
   b[[3,6]] = king
 
-  knight = Knight.new([0,6], b)
+  knight = Knight.new([0,6], b, "white")
   b[[0,6]] = knight
 
   puts "Knight at [0,6]"

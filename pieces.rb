@@ -45,7 +45,6 @@ class Piece
   def new_pos(start_pos, dir)
     [(start_pos[0] + dir[0]), (start_pos[1] + dir[1])]
   end
-
 end
 
 class SlidingPiece < Piece
@@ -53,10 +52,11 @@ class SlidingPiece < Piece
     moves = []
     next_pos = new_pos(pos, direction)
     while (next_pos.all? &BOUND_PROC) && empty_or_enemy?(next_pos)
-        moves << next_pos
-        board[next_pos].nil? ? next_pos = new_pos(next_pos, direction) : break
-      end
-      moves
+      moves << next_pos
+      board[next_pos].nil? ? next_pos = new_pos(next_pos, direction) : break
+    end
+
+    moves
   end
 end
 
@@ -68,6 +68,7 @@ class SteppingPiece < Piece
           (board[next_pos].nil?)
         moves << next_pos
     end
+
     moves
   end
 end
@@ -78,7 +79,7 @@ class Pawn < Piece
     if at_start?
       valid_moves += first_move
     else
-      valid_moves << move if !empty?(move)
+      valid_moves << move if move.all? &BOUND_PROC
     end
     valid_moves += capture_move
     valid_moves
@@ -106,21 +107,16 @@ class Pawn < Piece
   end
 
   def new_pos(start_pos, dir)
-    # (next_pos.all? &BOUND_PROC)
     white_move = [(start_pos[0] + dir[0]), (start_pos[1] + dir[1])]
     black_move = [(start_pos[0] - dir[0]), (start_pos[1] + dir[1])]
     if self.color == "white"
-        return white_move # if white_move.all?(&BOUND_PROC)
+        return white_move
     else
-        return black_move # if black_move.all?(&BOUND_PROC)
+        return black_move
     end
-
-
   end
 
-  ## if pawn pos[0] is == 1 (for white) or 6 (for black) pawn may move up to two spaces
-  ## otherwise, pawn may move only one space forward (direction determined by color)
-  ## if an 'attack point' is occupied, pawn may move to it
+
   private
   def at_start?
     white_at_start? || black_at_start?

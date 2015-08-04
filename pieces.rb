@@ -18,7 +18,7 @@ class Piece
   ]
   PAWN_DELTA = [1, 0]
 
-  PAWN_ATTACK_DELTA = [[-1,  1], [1,  1]]
+  PAWN_ATTACK_DELTA = [[1,  -1], [1,  1]]
 
   BOUND_PROC = Proc.new { |coordinate| coordinate.between?(0,7) }
   PAWN_START_PROC = Proc.new { |coord| coord * 2 }
@@ -39,7 +39,7 @@ class Piece
   end
 
   def enemy?(next_pos)
-    board[next_pos].color != self.color
+    !board[next_pos].nil? && (board[next_pos].color != self.color)
   end
 
   def new_pos(start_pos, dir)
@@ -78,9 +78,9 @@ class Pawn < Piece
     if at_start?
       valid_moves += first_move
     else
-      valid_moves += move
+      valid_moves << move if !empty?(move)
     end
-
+    valid_moves += capture_move
     valid_moves
   end
 
@@ -98,16 +98,24 @@ class Pawn < Piece
   end
 
   def capture_move
-    # attack_delta.each do |delta|
-      # enemy?(new_pos(pos, delta))
+    moves = []
+    PAWN_ATTACK_DELTA.each do |delta|
+      moves << new_pos(pos, delta) if enemy?(new_pos(pos, delta))
+      end
+    moves
   end
 
   def new_pos(start_pos, dir)
+    # (next_pos.all? &BOUND_PROC)
+    white_move = [(start_pos[0] + dir[0]), (start_pos[1] + dir[1])]
+    black_move = [(start_pos[0] - dir[0]), (start_pos[1] + dir[1])]
     if self.color == "white"
-        [(start_pos[0] + dir[0]), (start_pos[1] + dir[1])]
+        return white_move # if white_move.all?(&BOUND_PROC)
     else
-        [(start_pos[0] - dir[0]), (start_pos[1] + dir[1])]
+        return black_move # if black_move.all?(&BOUND_PROC)
     end
+
+
   end
 
   ## if pawn pos[0] is == 1 (for white) or 6 (for black) pawn may move up to two spaces
@@ -218,16 +226,19 @@ if __FILE__ == $PROGRAM_NAME
   p1 = Pawn.new([1,4], b, "white")
   p2 = Pawn.new([2,4], b, "white")
   p3 = Pawn.new([5,4], b, "black")
-  p4 = Pawn.new([6,4], b, "black")
+  p4 = Pawn.new([0,4], b, "black")
+  p5 = Pawn.new([4,5], b, "white")
 
   b[[1,4]] = p1
   b[[2,4]] = p2
   b[[5,4]] = p3
-  b[[6,4]] = p4
+  b[[0,4]] = p4
+  b[[4,5]] = p5
 
   p p1.moves
   p p2.moves
   p p3.moves
   p p4.moves
+  p p5.moves
 
 end

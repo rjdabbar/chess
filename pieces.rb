@@ -6,7 +6,7 @@ class Piece
     [ 0, -1], [ 0, 1], [1, 0], [-1,  0],
     [-1, -1], [-1, 1], [1, 1], [ 1, -1]
   ]
-  STRAIGHT_DELTAS = [
+  ORTHOGANAL_DELTAS = [
     [0, -1], [0, 1], [1, 0], [-1, 0]
   ]
   DIAGONAL_DELTAS = [
@@ -48,6 +48,12 @@ class Piece
 end
 
 class SlidingPiece < Piece
+  DIAGONAL_DELTAS = [
+    [-1, -1], [-1, 1], [1, 1], [1, -1]
+  ]
+  ORTHOGANAL_DELTAS = [
+    [0, -1], [0, 1], [1, 0], [-1, 0]
+  ]
   def slide(pos, direction)
     moves = []
     next_pos = new_pos(pos, direction)
@@ -57,6 +63,14 @@ class SlidingPiece < Piece
     end
 
     moves
+  end
+
+  def moves
+    valid_moves = []
+    self.move_dirs.each do |delta|
+      valid_moves += slide(pos, delta)
+    end
+    valid_moves
   end
 end
 
@@ -152,89 +166,84 @@ class Knight < SteppingPiece
 end
 
 class Queen < SlidingPiece
-  def moves
-    valid_moves = []
-    ALL_DELTAS.each do |delta|
-      valid_moves += slide(pos, delta)
-    end
-    valid_moves
+  attr_reader :move_dirs
+  def initialize(pos, board, color)
+    super(pos, board, color)
+    @move_dirs = DIAGONAL_DELTAS + ORTHOGANAL_DELTAS
   end
 end
 
 class Rook < SlidingPiece
-  def moves
-    valid_moves = []
-    STRAIGHT_DELTAS.each do |delta|
-      valid_moves += slide(pos, delta)
-    end
-    valid_moves
+  attr_reader :move_dirs
+  def initialize(pos, board, color)
+    super(pos, board, color)
+    @move_dirs = ORTHOGANAL_DELTAS
   end
 end
 
 class Bishop < SlidingPiece
-  def moves
-    valid_moves = []
-    DIAGONAL_DELTAS.each do |delta|
-      valid_moves += slide(pos, delta)
-    end
-    valid_moves
+  attr_reader :move_dirs
+  def initialize(pos, board, color)
+    super(pos, board, color)
+    @move_dirs = DIAGONAL_DELTAS
   end
 end
+
 
 
 
 if __FILE__ == $PROGRAM_NAME
   b = Board.new
 
-  # bis = Bishop.new([4,4], b, "white")
-  # b[[4,4]] = bis
-  #
-  #
-  #
-  # rook = Rook.new([0,4], b, "white")
-  # b[[0,4]] = rook
-  #
-  #
-  # queen = Queen.new([5,5], b, "black")
-  # b[[5,5]] = queen
-  #
-  # king = King.new([3,3], b, "white")
-  # b[[3,3]] = king
-  #
-  # knight = Knight.new([1,2], b, "white")
-  # b[[1,2]] = knight
-  #
-  # puts "white Knight at [1,2]"
-  # p knight.moves
-  #
-  # puts " white King at [3,3]"
-  # p king.moves
-  #
-  # puts " white Bishop at [4,4]"
-  # p bis.moves
-  #
-  # puts "white Rook at [0,4]"
-  # rook.moves
-  #
-  # puts "black Queen at [5,5]"
-  # queen.moves
+  bis = Bishop.new([4,4], b, "white")
+  b[[4,4]] = bis
 
-  p1 = Pawn.new([1,4], b, "white")
-  p2 = Pawn.new([2,4], b, "white")
-  p3 = Pawn.new([5,4], b, "black")
-  p4 = Pawn.new([0,4], b, "black")
-  p5 = Pawn.new([4,5], b, "white")
+  #
+  #
+  rook = Rook.new([0,4], b, "white")
+  b[[0,4]] = rook
+  #
+  #
+  queen = Queen.new([5,5], b, "black")
+  b[[5,5]] = queen
 
-  b[[1,4]] = p1
-  b[[2,4]] = p2
-  b[[5,4]] = p3
-  b[[0,4]] = p4
-  b[[4,5]] = p5
+  king = King.new([3,3], b, "white")
+  b[[3,3]] = king
 
-  p p1.moves
-  p p2.moves
-  p p3.moves
-  p p4.moves
-  p p5.moves
+  knight = Knight.new([1,2], b, "white")
+  b[[1,2]] = knight
+
+  puts "white Knight at [1,2]"
+  p knight.moves
+
+  puts " white King at [3,3]"
+  p king.moves
+  #
+  puts " white Bishop at [4,4]"
+  p bis.moves
+  #
+  puts "white Rook at [0,4]"
+  p rook.moves
+  #
+  puts "black Queen at [5,5]"
+  p queen.moves
+
+  # p1 = Pawn.new([1,4], b, "white")
+  # p2 = Pawn.new([2,4], b, "white")
+  # p3 = Pawn.new([5,4], b, "black")
+  # # p4 = Pawn.new([0,4], b, "black")
+  # p5 = Pawn.new([4,5], b, "white")
+
+  # b[[1,4]] = p1
+  # b[[2,4]] = p2
+  # b[[5,4]] = p3
+  # # b[[0,4]] = p4
+  # b[[4,5]] = p5
+
+  # p p1.moves
+  # p p2.moves
+  # p p3.moves
+  # p p4.moves
+  # p p5.moves
 
 end

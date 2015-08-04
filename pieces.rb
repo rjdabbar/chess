@@ -32,9 +32,15 @@ class SlidingPiece < Piece
     moves = []
     next_pos = [pos[0] + direction[0], pos[1] + direction[1]]
     while (next_pos.all? { |coordinate| coordinate.between?(0,7) }) &&
-          (board[next_pos].nil?)
+          (board[next_pos].nil? || board[next_pos].color != self.color)
         moves << next_pos
-        next_pos = [next_pos[0] + direction[0], next_pos[1] + direction[1]]
+        if board[next_pos].nil?
+          next_pos = [next_pos[0] + direction[0], next_pos[1] + direction[1]]
+        elsif board[next_pos].color != self.color
+          break
+        else
+          raise "Error"
+        end
       end
       moves
   end
@@ -127,7 +133,7 @@ if __FILE__ == $PROGRAM_NAME
   b[[0,4]] = rook
 
 
-  queen = Queen.new([5,5], b, "white")
+  queen = Queen.new([5,5], b, "black")
   b[[5,5]] = queen
 
   king = King.new([3,6], b, "white")
@@ -137,18 +143,18 @@ if __FILE__ == $PROGRAM_NAME
   b[[0,6]] = knight
 
   puts "Knight at [0,6]"
-  p knight.moves
+   knight.moves
 
   puts "King at [3,6]"
-  p king.moves
+   king.moves
 
   puts "Bishop at [4,4]"
-  bis.moves
+  p bis.moves
 
   puts "Rook at [0,4]"
   rook.moves
 
   puts "Queen at [5,5]"
-  queen.moves
+  p queen.moves
 
 end

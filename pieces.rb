@@ -30,21 +30,19 @@ class Piece
     board[next_pos].nil? || board[next_pos].color != self.color
   end
 
+  def new_pos(start_pos, end_pos)
+    [start_pos[0] + end_pos[0], start_pos[1] + end_pos[1]]
+  end
+
 end
 
 class SlidingPiece < Piece
   def slide(pos, direction)
     moves = []
-    next_pos = [pos[0] + direction[0], pos[1] + direction[1]]
+    next_pos = new_pos(pos, direction)
     while (next_pos.all? &BOUND_PROC) && empty_or_enemy?(next_pos)
         moves << next_pos
-        if board[next_pos].nil?
-          next_pos = [next_pos[0] + direction[0], next_pos[1] + direction[1]]
-        elsif board[next_pos].color != self.color
-          break
-        else
-          raise "Error"
-        end
+        board[next_pos].nil? ? next_pos = new_pos(next_pos, direction) : break
       end
       moves
   end
@@ -53,7 +51,7 @@ end
 class SteppingPiece < Piece
   def step(pos, direction)
     moves = []
-    next_pos = [pos[0] + direction[0], pos[1] + direction[1]]
+    next_pos = new_pos(pos, direction)
     if (next_pos.all? &BOUND_PROC) && empty_or_enemy?(next_pos)
           (board[next_pos].nil?)
         moves << next_pos
@@ -146,19 +144,19 @@ if __FILE__ == $PROGRAM_NAME
   knight = Knight.new([1,2], b, "white")
   b[[1,2]] = knight
 
-  puts "Knight at [1,2]"
+  puts "white Knight at [1,2]"
   p knight.moves
 
-  puts "King at [3,3]"
+  puts " white King at [3,3]"
   p king.moves
 
-  puts "Bishop at [4,4]"
-  bis.moves
+  puts " white Bishop at [4,4]"
+  p bis.moves
 
-  puts "Rook at [0,4]"
+  puts "white Rook at [0,4]"
   rook.moves
 
-  puts "Queen at [5,5]"
+  puts "black Queen at [5,5]"
   queen.moves
 
 end

@@ -8,15 +8,15 @@ class Pawn < Piece
   def moves
     valid_moves = []
     if at_start?
-      valid_moves += first_move
+      valid_moves += first_moves
     else
-      valid_moves << move if !move.nil? && (move.all? &BOUND_PROC)
+      valid_moves << forward_move if !move.nil? && (move.all? &BOUND_PROC)
     end
-    valid_moves += capture_move
+    valid_moves += capture_moves
     valid_moves
   end
 
-  def first_move
+  def first_moves
     one_move = new_pos(pos, PAWN_DELTA)
     two_move = new_pos(pos, (PAWN_DELTA.map &PAWN_START_PROC))
     moves = []
@@ -25,11 +25,11 @@ class Pawn < Piece
     moves
   end
 
-  def move
+  def forward_move
     new_pos(pos, PAWN_DELTA) if board.empty?(new_pos(pos, PAWN_DELTA))
   end
 
-  def capture_move
+  def capture_moves
     moves = []
     PAWN_ATTACK_DELTA.each do |delta|
       moves << new_pos(pos, delta) if board.enemy?(new_pos(pos, delta), self)

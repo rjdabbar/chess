@@ -11,11 +11,12 @@ class Board
     @board = Array.new(BOARD_SIZE) { Array.new(BOARD_SIZE) }
     @black_pieces = []
     @white_pieces = []
+    setup_board
   end
 
   def deep_dup
-    dup_board = board.dup
-    dup_board.flatten.each do |piece|
+    dup_board = self.dup
+    dup_board.board.flatten.each do |piece|
       unless piece.nil?
         dup_piece = piece.dup
         dup_piece.board = dup_board
@@ -94,7 +95,7 @@ class Board
     self[[7,6]] = Knight.new([7,6], self, "black", "black_queens_knight", "\u265E")
     self[[7,5]] = Bishop.new([7,5], self, "black", "black_kings_bishop", "\u265D")
     self[[7,2]] = Bishop.new([7,2], self, "black", "black_queens_bishop", "\u265D")
-    self[[7,4]] = Queen.new([7,4], self, "black", "black_queen", "\u265B")
+    self[[4,7]] = Queen.new([4,7], self, "black", "black_queen", "\u265B")
     self[[7,3]] = King.new([7,3], self, "black", "black_king", "\u265A")
   end
 

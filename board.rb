@@ -5,12 +5,12 @@ require_relative 'pawn.rb'
 
 class Board
   BOARD_SIZE = 8
-  attr_accessor :board, :white_pieces, :black_pieces
+  attr_accessor :board #:white_pieces, :black_pieces
 
   def initialize
     @board = Array.new(BOARD_SIZE) { Array.new(BOARD_SIZE) }
-    @black_pieces = []
-    @white_pieces = []
+    # @black_pieces = []
+    # @white_pieces = []
     setup_board
   end
 
@@ -69,7 +69,6 @@ class Board
   def setup_board
     place_white
     place_black
-    create_piece_arrays
   end
 
   def place_white
@@ -100,29 +99,34 @@ class Board
     self[[7,3]] = King.new([7,3], self, "black", "black_king", "\u265A")
   end
 
-  def create_piece_arrays
-    board.each_with_index do |row, row_idx|
-      row.each_with_index do |col, col_idx|
-        if row_idx == 0 || row_idx == 1
-          white_pieces << self[[row_idx, col_idx]]
-        elsif row_idx == 6 || row_idx == 7
-          black_pieces << self[[row_idx, col_idx]]
-        end
-      end
-    end
+  # def create_piece_arrays
+  #   board.each_with_index do |row, row_idx|
+  #     row.each_with_index do |col, col_idx|
+  #       if row_idx == 0 || row_idx == 1
+  #         white_pieces << self[[row_idx, col_idx]]
+  #       elsif row_idx == 6 || row_idx == 7
+  #         black_pieces << self[[row_idx, col_idx]]
+  #       end
+  #     end
+  #   end
+  # end
+
+  def white_pieces
+    board.flatten.select {|piece| !piece.nil? && piece.color == "white"}
+  end
+
+  def black_pieces
+    board.flatten.select {|piece| !piece.nil? && piece.color == "black"}
   end
 
   def in_check?(color)
-    result = false
     if color == "white"
       king = white_pieces.select { |piece| piece.is_a?(King) }.first
-
-      result = black_pieces.any? { |piece| piece.moves.include?(king.pos) }
+      return black_pieces.any? { |piece| piece.moves.include?(king.pos) }
     else
       king = black_pieces.select { |piece| piece.is_a?(King) }.first
-      result = white_pieces.any? { |piece| piece.moves.include?(king.pos) }
+      return white_pieces.any? { |piece| piece.moves.include?(king.pos) }
     end
-    result
   end
 
   def render

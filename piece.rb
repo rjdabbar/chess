@@ -1,12 +1,13 @@
 require_relative 'board.rb'
+require 'byebug'
 
 class Piece
 
   BOUND_PROC = Proc.new { |coordinate| coordinate.between?(0,7) }
   PAWN_START_PROC = Proc.new { |coord| coord * 2 }
 
-  attr_reader :board, :color, :name, :symbol
-  attr_accessor :pos
+  attr_reader  :color, :name, :symbol
+  attr_accessor :pos, :board
 
   def initialize(pos, board, color, name, symbol)
     @pos, @board, @color, @name, @symbol = pos, board, color, name, symbol
@@ -23,6 +24,13 @@ class Piece
   def to_s
     print symbol.encode('utf-8')
   end
+
+  def move_into_check?(end_pos)
+    dup_board = board.deep_dup
+    dup_board.move(self.pos, end_pos)
+    dup_board.in_check?(self.color)
+  end
+
 end
 
 

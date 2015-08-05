@@ -9,6 +9,7 @@ class Board
 
   def initialize
     @board = Array.new(BOARD_SIZE) { Array.new(BOARD_SIZE) }
+    setup_board
   end
 
   def [](pos)
@@ -21,6 +22,14 @@ class Board
     self.board[x][y] = piece
   end
 
+  def move(start_pos, end_pos)
+    piece = self[start_pos]
+    if piece.moves.include?(end_pos)
+      piece.pos = end_pos
+      self[start_pos] = nil
+      self[end_pos] = piece
+    end
+  end
 
   def empty_or_enemy?(next_pos, piece)
     empty?(next_pos) || enemy?(next_pos, piece)

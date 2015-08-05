@@ -75,6 +75,10 @@ if __FILE__ == $PROGRAM_NAME
   # p p3.moves
   # # p p4.moves
   # p p5.moves
-  b.setup_board
+
+  b.move([1,0], [2,0])
+
   p b
+
+
 end

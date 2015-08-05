@@ -77,7 +77,7 @@ if __FILE__ == $PROGRAM_NAME
   # p p5.moves
 
   b.move([1,0], [2,0])
-
+  # b.move([4,4],[6,4])
   p b
 
 

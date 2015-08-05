@@ -27,6 +27,13 @@ class Board
   def move(start_pos, end_pos)
     piece = self[start_pos]
     if piece.moves.include?(end_pos)
+      unless empty?(end_pos)
+        if enemy?(end_pos, piece)
+          white_pieces.delete(self[end_pos]) if self[end_pos].color == "white"
+        else
+          black_pieces.delete(self[end_pos]) if self[end_pos].color == "black"
+        end
+      end
       piece.pos = end_pos
       self[start_pos] = nil
       self[end_pos] = piece
@@ -63,7 +70,6 @@ class Board
     8.times do |col|
      self[[1, col]] = Pawn.new([1, col], self, "white", "white_pawn_#{col}" )
     end
-
   end
 
   def place_black

@@ -9,6 +9,8 @@ class Board
 
   def initialize
     @board = Array.new(BOARD_SIZE) { Array.new(BOARD_SIZE) }
+    @black_pieces = []
+    @white_pieces = []
     setup_board
   end
 
@@ -49,30 +51,30 @@ class Board
   end
 
   def place_white
-    self[[0,0]] = Rook.new([0,0], self, "white")
-    self[[0,7]] = Rook.new([0,7], self, "white")
-    self[[0,1]] = Knight.new([0,1], self, "white")
-    self[[0,6]] = Knight.new([0,6], self, "white")
-    self[[0,5]] = Bishop.new([0,5], self, "white")
-    self[[0,2]] = Bishop.new([0,2], self, "white")
-    self[[0,4]] = Queen.new([0,4], self, "white")
-    self[[0,3]] = King.new([0,3], self, "white")
+    self[[0,0]] = Rook.new([0,0], self, "white", "white_kings_rook")
+    self[[0,7]] = Rook.new([0,7], self, "white", "white_queens_rook")
+    self[[0,1]] = Knight.new([0,1], self, "white", "white_kings_knight")
+    self[[0,6]] = Knight.new([0,6], self, "white", "white_queens_knight")
+    self[[0,5]] = Bishop.new([0,5], self, "white", "white_kings_bishop")
+    self[[0,2]] = Bishop.new([0,2], self, "white", "white_queens_bishop")
+    self[[0,4]] = Queen.new([0,4], self, "white", "white_queen")
+    self[[0,3]] = King.new([0,3], self, "white", "white_king")
     8.times do |col|
-     self[[1, col]] = Pawn.new([1, col], self, "white" )
+     self[[1, col]] = Pawn.new([1, col], self, "white", "white_pawn_#{col}" )
     end
   end
 
   def place_black
     8.times do |col|
-      self[[6, col]] = Pawn.new([6, col], self, "black" )
+      self[[6, col]] = Pawn.new([6, col], self, "black", "black_pawn_#{col}" )
     end
-    self[[7,0]] = Rook.new([7,0], self, "black")
-    self[[7,7]] = Rook.new([7,7], self, "black")
-    self[[7,1]] = Knight.new([7,1], self, "black")
-    self[[7,6]] = Knight.new([7,6], self, "black")
-    self[[7,5]] = Bishop.new([7,5], self, "black")
-    self[[7,2]] = Bishop.new([7,2], self, "black")
-    self[[7,4]] = Queen.new([7,4], self, "black")
-    self[[7,3]] = King.new([7,3], self, "black")
+    self[[7,0]] = Rook.new([7,0], self, "black", "black_kings_rook")
+    self[[7,7]] = Rook.new([7,7], self, "black", "black_queens_rook")
+    self[[7,1]] = Knight.new([7,1], self, "black", "black_kings_knight")
+    self[[7,6]] = Knight.new([7,6], self, "black", "black_queens_knight")
+    self[[7,5]] = Bishop.new([7,5], self, "black", "black_kings_bishop")
+    self[[7,2]] = Bishop.new([7,2], self, "black", "black_queens_bishop")
+    self[[7,4]] = Queen.new([7,4], self, "black", "black_queen")
+    self[[7,3]] = King.new([7,3], self, "black", "black_king")
   end
 end

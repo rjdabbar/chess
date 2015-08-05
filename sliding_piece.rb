@@ -31,24 +31,24 @@ end
 
 class Queen < SlidingPiece
   attr_reader :move_dirs
-  def initialize(pos, board, color)
-    super(pos, board, color)
+  def initialize(pos, board, color, name)
+    super(pos, board, color, name)
     @move_dirs = DIAGONAL_DELTAS + ORTHOGANAL_DELTAS
   end
 end
 
 class Rook < SlidingPiece
   attr_reader :move_dirs
-  def initialize(pos, board, color)
-    super(pos, board, color)
+  def initialize(pos, board, color, name)
+    super(pos, board, color, name)
     @move_dirs = ORTHOGANAL_DELTAS
   end
 end
 
 class Bishop < SlidingPiece
   attr_reader :move_dirs
-  def initialize(pos, board, color)
-    super(pos, board, color)
+  def initialize(pos, board, color, name)
+    super(pos, board, color, name)
     @move_dirs = DIAGONAL_DELTAS
   end
 end

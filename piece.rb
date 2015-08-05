@@ -5,11 +5,11 @@ class Piece
   BOUND_PROC = Proc.new { |coordinate| coordinate.between?(0,7) }
   PAWN_START_PROC = Proc.new { |coord| coord * 2 }
 
-  attr_reader :board, :color
+  attr_reader :board, :color, :name
   attr_accessor :pos
 
-  def initialize(pos, board, color)
-    @pos, @board, @color = pos, board, color
+  def initialize(pos, board, color, name)
+    @pos, @board, @color, @name = pos, board, color, name
   end
 
   def new_pos(start_pos, dir)
@@ -17,7 +17,7 @@ class Piece
   end
 
   def inspect
-    { color: "#{self.color}", piece: "#{self.class}", pos: "#{self.pos}" }.inspect
+    { piece: "#{self.name}", pos: "#{self.pos}" }.inspect
   end
 end
 

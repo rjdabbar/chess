@@ -40,18 +40,18 @@ class Board
 
   def move(start_pos, end_pos)
     piece = self[start_pos]
-    if piece.moves.include?(end_pos)
-      unless empty?(end_pos)
-        if self[end_pos].color == "white"
-          white_pieces.delete(self[end_pos])
-        else
-          black_pieces.delete(self[end_pos])
-        end
-      end
+    if piece.valid_moves.include?(end_pos)
       piece.pos = end_pos
       self[start_pos] = nil
       self[end_pos] = piece
     end
+  end
+
+  def move!(start_pos, end_pos)
+    piece = self[start_pos]
+      piece.pos = end_pos
+      self[start_pos] = nil
+      self[end_pos] = piece
   end
 
   def empty_or_enemy?(next_pos, piece)

@@ -27,8 +27,16 @@ class Piece
 
   def move_into_check?(end_pos)
     dup_board = board.deep_dup
-    dup_board.move(self.pos, end_pos)
+    dup_board.move!(self.pos, end_pos)
     dup_board.in_check?(self.color)
+  end
+
+  def valid_moves
+    valid_moves = []
+    moves.each do |move|
+      valid_moves << move unless move_into_check?(move)
+    end
+    valid_moves
   end
 
 end

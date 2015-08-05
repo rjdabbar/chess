@@ -47,7 +47,7 @@ class Knight < SteppingPiece
   def initialize(pos, board, color, name, sym)
     super(pos, board, color, name, sym)
   end
-  
+
   def move_dirs
     KNIGHT_DELTAS
   end

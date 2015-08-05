@@ -40,7 +40,7 @@ class Pawn < Piece
   def new_pos(start_pos, dir)
     white_move = [(start_pos[0] + dir[0]), (start_pos[1] + dir[1])]
     black_move = [(start_pos[0] - dir[0]), (start_pos[1] + dir[1])]
-    if self.color == "white"
+    if self.color == :white
       white_move
     else
       black_move
@@ -54,10 +54,10 @@ class Pawn < Piece
   end
 
   def white_at_start?
-    pos[0] == 1 && self.color == "white"
+    pos[0] == 1 && self.color == :white
   end
 
   def black_at_start?
-    pos[0] == 6 && self.color == "black"
+    pos[0] == 6 && self.color == :black
   end
 end

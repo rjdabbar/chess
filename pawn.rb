@@ -3,7 +3,7 @@ require_relative 'piece.rb'
 
 class Pawn < Piece
   SYMBOLS = {white: "\u2659", black: "\u265F"}
-  
+
   PAWN_DELTA = [1, 0]
   PAWN_ATTACK_DELTA = [[1,  -1], [1,  1]]
 
@@ -49,6 +49,9 @@ class Pawn < Piece
     end
   end
 
+  def symbol
+    SYMBOLS[self.color]
+  end
 
   private
   def at_start?

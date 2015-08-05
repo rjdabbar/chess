@@ -25,9 +25,7 @@ class Piece
     print symbol.encode('utf-8')
   end
 
-  def symbol
-    SYMBOLS[self.color]
-  end
+
 
   def move_into_check?(end_pos)
     dup_board = board.deep_dup

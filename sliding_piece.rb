@@ -38,6 +38,10 @@ class Queen < SlidingPiece
   def move_dirs
     DIAGONAL_DELTAS + ORTHOGANAL_DELTAS
   end
+
+  def symbol
+    SYMBOLS[self.color]
+  end
 end
 
 class Rook < SlidingPiece
@@ -49,6 +53,10 @@ class Rook < SlidingPiece
   def move_dirs
     ORTHOGANAL_DELTAS
   end
+
+  def symbol
+    SYMBOLS[self.color]
+  end
 end
 
 class Bishop < SlidingPiece
@@ -59,5 +67,9 @@ class Bishop < SlidingPiece
 
   def move_dirs
     DIAGONAL_DELTAS
+  end
+
+  def symbol
+    SYMBOLS[self.color]
   end
 end

@@ -36,6 +36,10 @@ class King < SteppingPiece
   def move_dirs
     DIAGONAL_DELTAS + ORTHOGANAL_DELTAS
   end
+
+  def symbol
+    SYMBOLS[self.color]
+  end
 end
 
 class Knight < SteppingPiece
@@ -51,5 +55,9 @@ class Knight < SteppingPiece
 
   def move_dirs
     KNIGHT_DELTAS
+  end
+
+  def symbol
+    SYMBOLS[self.color]
   end
 end

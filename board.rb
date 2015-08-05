@@ -50,11 +50,7 @@ class Board
   end
 
   def checkmate?(color)
-    if color == :white
-      white_pieces.all? { |piece| piece.valid_moves.empty? } && in_check?(color)
-    else
-      black_pieces.all? { |piece| piece.valid_moves.empty? } && in_check?(color)
-    end
+    pieces(color).all? { |piece| piece.valid_moves.empty? } && in_check?(color)
   end
 
   def empty_or_enemy?(next_pos, piece)
@@ -110,14 +106,18 @@ class Board
     board.flatten.select {|piece| !piece.nil? && piece.color == :black}
   end
 
+  def pieces(color)
+    color == :white ? white_pieces  : black_pieces
+  end
+
+  def enemy_pieces(color)
+    color == :white ? black_pieces : white_pieces
+  end
+
+
   def in_check?(color)
-    if color == :white
-      king = white_pieces.select { |piece| piece.is_a?(King) }.first
-      return black_pieces.any? { |piece| piece.moves.include?(king.pos) }
-    else
-      king = black_pieces.select { |piece| piece.is_a?(King) }.first
-      return white_pieces.any? { |piece| piece.moves.include?(king.pos) }
-    end
+    pieces(color).select { |piece| piece.is_a?(King) }.first
+    enemy_pieces(color).any? { |piece| piece.moves.include?(king.pos) }
   end
 
   def render

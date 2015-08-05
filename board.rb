@@ -35,13 +35,11 @@ class Board
   end
 
   def setup_board
-    8.times do |col|
-     self[[1, col]] = Pawn.new([1, col], self, "white" )
-    end
-    8.times do |col|
-      self[[6, col]] = Pawn.new([6, col], self, "black" )
-    end
-    
+    place_white
+    place_black
+  end
+
+  def place_white
     self[[0,0]] = Rook.new([0,0], self, "white")
     self[[0,7]] = Rook.new([0,7], self, "white")
     self[[0,1]] = Knight.new([0,1], self, "white")
@@ -50,7 +48,15 @@ class Board
     self[[0,2]] = Bishop.new([0,2], self, "white")
     self[[0,4]] = Queen.new([0,4], self, "white")
     self[[0,3]] = King.new([0,3], self, "white")
+    8.times do |col|
+     self[[1, col]] = Pawn.new([1, col], self, "white" )
+    end
+  end
 
+  def place_black
+    8.times do |col|
+      self[[6, col]] = Pawn.new([6, col], self, "black" )
+    end
     self[[7,0]] = Rook.new([7,0], self, "black")
     self[[7,7]] = Rook.new([7,7], self, "black")
     self[[7,1]] = Knight.new([7,1], self, "black")

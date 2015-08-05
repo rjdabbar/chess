@@ -11,7 +11,18 @@ class Board
     @board = Array.new(BOARD_SIZE) { Array.new(BOARD_SIZE) }
     @black_pieces = []
     @white_pieces = []
-    setup_board
+  end
+
+  def deep_dup
+    dup_board = board.dup
+    dup_board.flatten.each do |piece|
+      unless piece.nil?
+        dup_piece = piece.dup
+        dup_piece.board = dup_board
+        dup_board[piece.pos] = dup_piece
+      end
+    end
+    dup_board
   end
 
   def [](pos)

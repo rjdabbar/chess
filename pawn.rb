@@ -10,7 +10,7 @@ class Pawn < Piece
     if at_start?
       valid_moves += first_move
     else
-      valid_moves << move if move.all? &BOUND_PROC
+      valid_moves << move if !move.nil? && (move.all? &BOUND_PROC)
     end
     valid_moves += capture_move
     valid_moves

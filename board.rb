@@ -25,6 +25,7 @@ class Board
     dup_board
   end
 
+
   def [](pos)
     x, y = pos
     board[x][y]
@@ -130,7 +131,7 @@ class Board
           print "  #{self[[row_idx, col_idx]].to_s} |"
         end
       end
-        print "\n_________________________________________\n"
+        print "\n|____|____|____|____|____|____|____|____|\n"
     end
 
     nil

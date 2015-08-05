@@ -98,6 +98,16 @@ class Board
     end
   end
 
+  def in_check?(color)
+    if color == "white"
+      king = white_pieces.select { |piece| piece.is_a?(King) }.first
+      black_pieces.any? { |piece| piece.moves.include?(king.pos) }
+    else
+      king = black_pieces.select { |piece| piece.is_a?(King) }.first
+      white_pieces.any? { |piece| piece.moves.include?(king.pos) }
+    end
+  end
+
   def render
     print "_________________________________________\n"
     board.each_with_index do |row, row_idx|

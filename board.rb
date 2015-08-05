@@ -5,12 +5,10 @@ require_relative 'pawn.rb'
 
 class Board
   BOARD_SIZE = 8
-  attr_accessor :board #:white_pieces, :black_pieces
+  attr_accessor :board
 
   def initialize
     @board = Array.new(BOARD_SIZE) { Array.new(BOARD_SIZE) }
-    # @black_pieces = []
-    # @white_pieces = []
     setup_board
   end
 
@@ -26,7 +24,6 @@ class Board
     end
     dup_board
   end
-
 
   def [](pos)
     x, y = pos
@@ -49,9 +46,17 @@ class Board
 
   def move!(start_pos, end_pos)
     piece = self[start_pos]
-      piece.pos = end_pos
-      self[start_pos] = nil
-      self[end_pos] = piece
+    piece.pos = end_pos
+    self[start_pos] = nil
+    self[end_pos] = piece
+  end
+
+  def checkmate?(color)
+    if color == "white"
+      white_pieces.all? { |piece| piece.valid_moves.empty? } && in_check?(color)
+    else
+      black_pieces.all? { |piece| piece.valid_moves.empty? } && in_check?(color)
+    end
   end
 
   def empty_or_enemy?(next_pos, piece)
@@ -99,18 +104,6 @@ class Board
     self[[7,3]] = King.new([7,3], self, "black", "black_king", "\u265A")
   end
 
-  # def create_piece_arrays
-  #   board.each_with_index do |row, row_idx|
-  #     row.each_with_index do |col, col_idx|
-  #       if row_idx == 0 || row_idx == 1
-  #         white_pieces << self[[row_idx, col_idx]]
-  #       elsif row_idx == 6 || row_idx == 7
-  #         black_pieces << self[[row_idx, col_idx]]
-  #       end
-  #     end
-  #   end
-  # end
-
   def white_pieces
     board.flatten.select {|piece| !piece.nil? && piece.color == "white"}
   end
@@ -142,7 +135,6 @@ class Board
       end
         print "\n|____|____|____|____|____|____|____|____|\n"
     end
-
     nil
   end
 

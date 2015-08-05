@@ -111,6 +111,8 @@ class Board
       end
         print "\n_________________________________________\n"
     end
+
+    nil
   end
 
 end

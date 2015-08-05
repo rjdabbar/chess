@@ -28,10 +28,10 @@ class Board
     piece = self[start_pos]
     if piece.moves.include?(end_pos)
       unless empty?(end_pos)
-        if enemy?(end_pos, piece)
-          white_pieces.delete(self[end_pos]) if self[end_pos].color == "white"
+        if self[end_pos].color == "white"
+          white_pieces.delete(self[end_pos])
         else
-          black_pieces.delete(self[end_pos]) if self[end_pos].color == "black"
+          black_pieces.delete(self[end_pos])
         end
       end
       piece.pos = end_pos
@@ -97,4 +97,5 @@ class Board
       end
     end
   end
+
 end

@@ -41,9 +41,9 @@ class Pawn < Piece
     white_move = [(start_pos[0] + dir[0]), (start_pos[1] + dir[1])]
     black_move = [(start_pos[0] - dir[0]), (start_pos[1] + dir[1])]
     if self.color == "white"
-      return white_move
+      white_move
     else
-      return black_move
+      black_move
     end
   end
 

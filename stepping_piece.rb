@@ -28,10 +28,13 @@ class SteppingPiece < Piece
 end
 
 class King < SteppingPiece
-  attr_reader :move_dirs
+
   def initialize(pos, board, color, name, sym)
     super(pos, board, color, name, sym)
-    @move_dirs = DIAGONAL_DELTAS + ORTHOGANAL_DELTAS
+  end
+
+  def move_dirs
+    DIAGONAL_DELTAS + ORTHOGANAL_DELTAS
   end
 end
 
@@ -40,9 +43,12 @@ class Knight < SteppingPiece
     [-2, -1], [-2,  1], [-1, -2], [-1,  2],
     [ 1, -2], [ 1,  2], [ 2, -1], [ 2,  1]
   ]
-  attr_reader :move_dirs
+
   def initialize(pos, board, color, name, sym)
     super(pos, board, color, name, sym)
-    @move_dirs = KNIGHT_DELTAS
+  end
+  
+  def move_dirs
+    KNIGHT_DELTAS
   end
 end

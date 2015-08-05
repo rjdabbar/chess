@@ -98,4 +98,19 @@ class Board
     end
   end
 
+  def render
+    print "_________________________________________\n"
+    board.each_with_index do |row, row_idx|
+      print "|"
+      row.each_with_index do |col, col_idx|
+        if self[[row_idx, col_idx]].nil?
+          print "    |"
+        else
+          print "  #{self[[row_idx, col_idx]].to_s} |"
+        end
+      end
+        print "\n_________________________________________\n"
+    end
+  end
+
 end

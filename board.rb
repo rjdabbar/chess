@@ -98,8 +98,6 @@ class Board
     self[[7,2]] = Bishop.new([7,2], self, "black", "black_queens_bishop", "\u265D")
     self[[7,4]] = Queen.new([7,4], self, "black", "black_queen", "\u265B")
     self[[7,3]] = King.new([7,3], self, "black", "black_king", "\u265A")
-
-        self[[4,7]] = Queen.new([4,7], self, "black", "black_queen", "\u265B")
   end
 
   def create_piece_arrays
@@ -115,15 +113,16 @@ class Board
   end
 
   def in_check?(color)
-
+    result = false
     if color == "white"
       king = white_pieces.select { |piece| piece.is_a?(King) }.first
 
-      black_pieces.any? { |piece| piece.moves.include?(king.pos) }
+      result = black_pieces.any? { |piece| piece.moves.include?(king.pos) }
     else
       king = black_pieces.select { |piece| piece.is_a?(King) }.first
-      white_pieces.any? { |piece| piece.moves.include?(king.pos) }
+      result = white_pieces.any? { |piece| piece.moves.include?(king.pos) }
     end
+    result
   end
 
   def render

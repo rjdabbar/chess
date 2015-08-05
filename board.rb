@@ -5,7 +5,7 @@ require_relative 'pawn.rb'
 
 class Board
   BOARD_SIZE = 8
-  attr_accessor :board
+  attr_accessor :board, :white_pieces, :black_pieces
 
   def initialize
     @board = Array.new(BOARD_SIZE) { Array.new(BOARD_SIZE) }
@@ -48,6 +48,7 @@ class Board
   def setup_board
     place_white
     place_black
+    create_piece_arrays
   end
 
   def place_white
@@ -62,6 +63,7 @@ class Board
     8.times do |col|
      self[[1, col]] = Pawn.new([1, col], self, "white", "white_pawn_#{col}" )
     end
+
   end
 
   def place_black
@@ -76,5 +78,17 @@ class Board
     self[[7,2]] = Bishop.new([7,2], self, "black", "black_queens_bishop")
     self[[7,4]] = Queen.new([7,4], self, "black", "black_queen")
     self[[7,3]] = King.new([7,3], self, "black", "black_king")
+  end
+
+  def create_piece_arrays
+    board.each_with_index do |row, row_idx|
+      row.each_with_index do |col, col_idx|
+        if row_idx == 0 || row_idx == 1
+          white_pieces << self[[row_idx, col_idx]]
+        elsif row_idx == 6 || row_idx == 7
+          black_pieces << self[[row_idx, col_idx]]
+        end
+      end
+    end
   end
 end

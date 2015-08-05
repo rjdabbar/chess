@@ -38,9 +38,7 @@ class Board
   def move(start_pos, end_pos)
     piece = self[start_pos]
     if piece.valid_moves.include?(end_pos)
-      piece.pos = end_pos
-      self[start_pos] = nil
-      self[end_pos] = piece
+      move!(start_pos, end_pos)
     end
   end
 

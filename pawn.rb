@@ -2,6 +2,8 @@ require_relative 'board.rb'
 require_relative 'piece.rb'
 
 class Pawn < Piece
+  SYMBOLS = {white: "\u2659", black: "\u265F"}
+  
   PAWN_DELTA = [1, 0]
   PAWN_ATTACK_DELTA = [[1,  -1], [1,  1]]
 

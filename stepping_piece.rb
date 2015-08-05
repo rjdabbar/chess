@@ -28,9 +28,9 @@ class SteppingPiece < Piece
 end
 
 class King < SteppingPiece
-
-  def initialize(pos, board, color, sym)
-    super(pos, board, color, sym)
+  SYMBOLS = {white: "\u2654", black: "\u265A"}
+  def initialize(pos, board, color)
+    super(pos, board, color)
   end
 
   def move_dirs
@@ -39,13 +39,14 @@ class King < SteppingPiece
 end
 
 class Knight < SteppingPiece
+  SYMBOLS = {white: "\u2658", black: "\u265E"}
   KNIGHT_DELTAS = [
     [-2, -1], [-2,  1], [-1, -2], [-1,  2],
     [ 1, -2], [ 1,  2], [ 2, -1], [ 2,  1]
   ]
 
-  def initialize(pos, board, color, sym)
-    super(pos, board, color, sym)
+  def initialize(pos, board, color)
+    super(pos, board, color)
   end
 
   def move_dirs

@@ -30,8 +30,9 @@ end
 
 
 class Queen < SlidingPiece
-  def initialize(pos, board, color, sym)
-    super(pos, board, color, sym)
+  SYMBOLS = {white: "\u2655", black: "\u265B"}
+  def initialize(pos, board, color)
+    super(pos, board, color)
   end
 
   def move_dirs
@@ -40,9 +41,9 @@ class Queen < SlidingPiece
 end
 
 class Rook < SlidingPiece
-
-  def initialize(pos, board, color, sym)
-    super(pos, board, color, sym)
+  SYMBOLS = {white: "\u2656", black: "\u265C"}
+  def initialize(pos, board, color)
+    super(pos, board, color)
   end
 
   def move_dirs
@@ -51,8 +52,9 @@ class Rook < SlidingPiece
 end
 
 class Bishop < SlidingPiece
-  def initialize(pos, board, color, sym)
-    super(pos, board, color, sym)
+  SYMBOLS = {white: "\u2657", black: "\u265D"}
+  def initialize(pos, board, color)
+    super(pos, board, color)
   end
 
   def move_dirs

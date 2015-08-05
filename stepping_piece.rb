@@ -11,8 +11,7 @@ class SteppingPiece < Piece
   def step(pos, direction)
     moves = []
     next_pos = new_pos(pos, direction)
-    if (next_pos.all? &BOUND_PROC) && empty_or_enemy?(next_pos)
-          (board[next_pos].nil?)
+    if (next_pos.all? &BOUND_PROC) && board.empty_or_enemy?(next_pos, self)
         moves << next_pos
     end
 

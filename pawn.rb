@@ -20,19 +20,19 @@ class Pawn < Piece
     one_move = new_pos(pos, PAWN_DELTA)
     two_move = new_pos(pos, (PAWN_DELTA.map &PAWN_START_PROC))
     moves = []
-    moves << one_move if empty?(one_move)
-    moves << two_move if empty?(one_move) && empty?(two_move)
+    moves << one_move if board.empty?(one_move)
+    moves << two_move if board.empty?(one_move) && board.empty?(two_move)
     moves
   end
 
   def move
-    new_pos(pos, PAWN_DELTA) if empty?(new_pos(pos, PAWN_DELTA))
+    new_pos(pos, PAWN_DELTA) if board.empty?(new_pos(pos, PAWN_DELTA))
   end
 
   def capture_move
     moves = []
     PAWN_ATTACK_DELTA.each do |delta|
-      moves << new_pos(pos, delta) if enemy?(new_pos(pos, delta))
+      moves << new_pos(pos, delta) if board.enemy?(new_pos(pos, delta), self)
       end
     moves
   end

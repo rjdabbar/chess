@@ -21,4 +21,16 @@ class Board
     self.board[x][y] = piece
   end
 
+
+  def empty_or_enemy?(next_pos, piece)
+    empty?(next_pos) || enemy?(next_pos, piece)
+  end
+
+  def empty?(next_pos)
+    self[next_pos].nil?
+  end
+
+  def enemy?(next_pos, piece)
+    !self[next_pos].nil? && (self[next_pos].color != piece.color)
+  end
 end

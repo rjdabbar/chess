@@ -11,7 +11,7 @@ class SlidingPiece < Piece
   def slide(pos, direction)
     moves = []
     next_pos = new_pos(pos, direction)
-    while (next_pos.all? &BOUND_PROC) && empty_or_enemy?(next_pos)
+    while (next_pos.all? &BOUND_PROC) && board.empty_or_enemy?(next_pos, self)
       moves << next_pos
       board[next_pos].nil? ? next_pos = new_pos(next_pos, direction) : break
     end

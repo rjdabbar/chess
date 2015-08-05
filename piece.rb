@@ -9,8 +9,8 @@ class Piece
   attr_reader  :color, :name, :symbol
   attr_accessor :pos, :board
 
-  def initialize(pos, board, color, name, symbol)
-    @pos, @board, @color, @name, @symbol = pos, board, color, name, symbol
+  def initialize(pos, board, color, symbol)
+    @pos, @board, @color, @symbol = pos, board, color, symbol
   end
 
   def new_pos(start_pos, dir)

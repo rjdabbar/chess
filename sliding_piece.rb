@@ -30,8 +30,8 @@ end
 
 
 class Queen < SlidingPiece
-  def initialize(pos, board, color, name, sym)
-    super(pos, board, color, name, sym)
+  def initialize(pos, board, color, sym)
+    super(pos, board, color, sym)
   end
 
   def move_dirs
@@ -41,8 +41,8 @@ end
 
 class Rook < SlidingPiece
 
-  def initialize(pos, board, color, name, sym)
-    super(pos, board, color, name, sym)
+  def initialize(pos, board, color, sym)
+    super(pos, board, color, sym)
   end
 
   def move_dirs
@@ -51,8 +51,8 @@ class Rook < SlidingPiece
 end
 
 class Bishop < SlidingPiece
-  def initialize(pos, board, color, name, sym)
-    super(pos, board, color, name, sym)
+  def initialize(pos, board, color, sym)
+    super(pos, board, color, sym)
   end
 
   def move_dirs

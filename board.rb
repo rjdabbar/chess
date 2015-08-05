@@ -75,31 +75,31 @@ class Board
   end
 
   def place_white
-    self[[0,0]] = Rook.new([0,0], self, :white, "white_kings_rook", "\u2656")
-    self[[0,7]] = Rook.new([0,7], self, :white, "white_queens_rook", "\u2656")
-    self[[0,1]] = Knight.new([0,1], self, :white, "white_kings_knight", "\u2658")
-    self[[0,6]] = Knight.new([0,6], self, :white, "white_queens_knight", "\u2658")
-    self[[0,5]] = Bishop.new([0,5], self, :white, "white_kings_bishop", "\u2657")
-    self[[0,2]] = Bishop.new([0,2], self, :white, "white_queens_bishop", "\u2657")
-    self[[0,4]] = Queen.new([0,4], self, :white, "white_queen", "\u2655")
-    self[[0,3]] = King.new([0,3], self, :white, "white_king", "\u2654")
+    self[[0,0]] = Rook.new([0,0], self, :white, "\u2656")
+    self[[0,7]] = Rook.new([0,7], self, :white, "\u2656")
+    self[[0,1]] = Knight.new([0,1], self, :white, "\u2658")
+    self[[0,6]] = Knight.new([0,6], self, :white, "\u2658")
+    self[[0,5]] = Bishop.new([0,5], self, :white, "\u2657")
+    self[[0,2]] = Bishop.new([0,2], self, :white, "\u2657")
+    self[[0,4]] = Queen.new([0,4], self, :white, "\u2655")
+    self[[0,3]] = King.new([0,3], self, :white, "\u2654")
     8.times do |col|
-     self[[1, col]] = Pawn.new([1, col], self, :white, "white_pawn_#{col}", "\u2659" )
+     self[[1, col]] = Pawn.new([1, col], self, :white, "\u2659" )
     end
   end
 
   def place_black
     8.times do |col|
-      self[[6, col]] = Pawn.new([6, col], self, :black, "black_pawn_#{col}", "\u265F" )
+      self[[6, col]] = Pawn.new([6, col], self, :black, "\u265F" )
     end
-    self[[7,0]] = Rook.new([7,0], self, :black, "black_kings_rook", "\u265C")
-    self[[7,7]] = Rook.new([7,7], self, :black, "black_queens_rook", "\u265C")
-    self[[7,1]] = Knight.new([7,1], self, :black, "black_kings_knight", "\u265E")
-    self[[7,6]] = Knight.new([7,6], self, :black, "black_queens_knight", "\u265E")
-    self[[7,5]] = Bishop.new([7,5], self, :black, "black_kings_bishop", "\u265D")
-    self[[7,2]] = Bishop.new([7,2], self, :black, "black_queens_bishop", "\u265D")
-    self[[7,4]] = Queen.new([7,4], self, :black, "black_queen", "\u265B")
-    self[[7,3]] = King.new([7,3], self, :black, "black_king", "\u265A")
+    self[[7,0]] = Rook.new([7,0], self, :black, "\u265C")
+    self[[7,7]] = Rook.new([7,7], self, :black, "\u265C")
+    self[[7,1]] = Knight.new([7,1], self, :black, "\u265E")
+    self[[7,6]] = Knight.new([7,6], self, :black, "\u265E")
+    self[[7,5]] = Bishop.new([7,5], self, :black, "\u265D")
+    self[[7,2]] = Bishop.new([7,2], self, :black, "\u265D")
+    self[[7,4]] = Queen.new([7,4], self, :black,  "\u265B")
+    self[[7,3]] = King.new([7,3], self, :black,  "\u265A")
   end
 
   def white_pieces

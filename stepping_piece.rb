@@ -29,8 +29,8 @@ end
 
 class King < SteppingPiece
 
-  def initialize(pos, board, color, name, sym)
-    super(pos, board, color, name, sym)
+  def initialize(pos, board, color, sym)
+    super(pos, board, color, sym)
   end
 
   def move_dirs
@@ -44,8 +44,8 @@ class Knight < SteppingPiece
     [ 1, -2], [ 1,  2], [ 2, -1], [ 2,  1]
   ]
 
-  def initialize(pos, board, color, name, sym)
-    super(pos, board, color, name, sym)
+  def initialize(pos, board, color, sym)
+    super(pos, board, color, sym)
   end
 
   def move_dirs

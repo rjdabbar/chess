@@ -66,7 +66,7 @@ class Board
   end
 
   def enemy?(next_pos, piece)
-    !self[next_pos].nil? && (self[next_pos].color != piece.color)
+    !empty? && (self[next_pos].color != piece.color)
   end
 
   def setup_board
